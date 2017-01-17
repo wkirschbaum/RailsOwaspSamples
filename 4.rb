@@ -6,12 +6,11 @@
     going on with funny chars and jquery, plus it says safe so I'm guessing
     nothing bad will happen
   -->
-  Welcome, <%= current_user.first_name.html_safe %>
+  Welcome, <%= current_user.first_name.escape_html %>
 </li>
 
 # Similar to this
 
 def raw(dirty_string)
-  dirty_string.to_s.html_safe
+  dirty_string.to_s.escape_html
 end
-

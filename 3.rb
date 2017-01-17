@@ -4,7 +4,7 @@ def upload
   file = params[:benefits][:upload]
   if file
     flash[:success] = "File Successfully Uploaded!"
-    Benefits.save(file, params[:benefits][:backup])
+    Benefits.save(file, params[:benefits][:backup] == "true")
   else
     flash[:error] = "Something went wrong"
   end
@@ -18,16 +18,21 @@ class Benefits < ActiveRecord::Base
 
   def self.save(file, backup=false)
     data_path = Rails.root.join("public", "data")
-    full_file_name = "#{data_path}/#{file.original_filename}"
+    base_name = File.basename(file.original_filename)
+    full_file_name = "#{data_path}/#{base_name}"
     f = File.open(full_file_name, "wb+")
     f.write file.read
     f.close
-    make_backup(file, data_path, full_file_name) if backup == "true"
+    make_backup(base_name, data_path, full_file_name) if backup
   end
 
-  def self.make_backup(file, data_path, full_file_name)
+  def self.make_backup(base_name, data_path, full_file_name)
     if File.exists?(full_file_name)
-      silence_streams(STDERR) { system("cp #{full_file_name} #{data_path}/bak#{Time.zone.now.to_i}_#{file.original_filename}") }
+      silence_streams(STDERR) { system(
+          "/bin/cp",
+          full_file_name,
+          "#{data_path}/bak#{Time.zone.now.to_i}_#{base_name}"
+      ) }
     end
   end
 

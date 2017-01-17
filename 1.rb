@@ -2,7 +2,7 @@
 
 def update
   message = false
-  user = User.where("user_id = '#{params[:user][:user_id]}'").first
+  user = User.find(current_user.user_id)
   if user
     user.skip_user_id_assign = true
     user.skip_hash_password = true

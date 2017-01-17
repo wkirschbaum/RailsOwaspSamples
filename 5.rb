@@ -24,15 +24,18 @@ def create
   end
   if user
     if params[:remember_me]
-      cookies.permanent[:auth_token] = user.auth_token if User.where(:user_id => user.user_id).exists?
+      cookies[:auth_token] = {
+          value: user.auth_token,
+          expires: 2.weeks.from_now
+      }
     else
-      session[:user_id] = user.user_id if User.where(:user_id => user.user_id).exists?
+      session[:user_id] = user.user_id
     end
     redirect_to path
   else
-    # Removed this code, just doesn't seem specific enough!
-    # flash[:error] = "Either your username and password is incorrect"
-    flash[:error] = e.message
+    # Do not make this more specific! It will expose information about which
+    # users exist.
+    flash[:error] = "Either your username or password or both are incorrect"
     render "new"
   end
 end
