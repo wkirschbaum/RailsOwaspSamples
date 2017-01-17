@@ -8,5 +8,10 @@ For each ruby file, do the following:
 * Create a Pull Request with the changes
 * Discuss your code with the team next to you
 
-References: 
+## References: 
+
 https://www.owasp.org/index.php/Top_10_2013-Top_10
+
+http://guides.rubyonrails.org/security.html#sessions
+
+
