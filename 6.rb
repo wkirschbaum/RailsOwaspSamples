@@ -2,6 +2,4 @@
 
 validates :password, :presence => true,
           :confirmation => true,
-          :length => {:within => 6..40},
-          :on => :create,
-          :if => :password
+          :length => {:within => 6..40}

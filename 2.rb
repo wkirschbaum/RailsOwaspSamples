@@ -9,6 +9,10 @@ class Analytics < ActiveRecord::Base
     calculate(:count, col)
   end
 
+  def self.valid_fields
+    return ["ip_address", "referrer", "user_agent"]
+  end
+
   # ...
 end
 
@@ -18,7 +22,9 @@ def analytics
   if params[:field].nil?
     fields = "*"
   else
-    fields = params[:field].map {|k,v| k }.join(",")
+    fields = params[:field].keys.select {
+        |k| Analytics.valid_fields.include? k
+    }.join(",")
   end
 
   if params[:ip]
