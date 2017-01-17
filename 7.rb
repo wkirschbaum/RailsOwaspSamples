@@ -1,3 +1,5 @@
+# If you changed this code already in 5, please ignore.
+
 # app/models/user.rb
 
 def self.authenticate(email, password)
